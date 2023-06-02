@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class BirdController : MonoBehaviour
@@ -11,32 +8,30 @@ public class BirdController : MonoBehaviour
     private Vector3 endPosition;
     private bool movingRight = true;
     private bool facingRight = true;
-
+    private float timeElapsed = 0f;
+    private bool isFirst = true;
     void Start()
     {
         startPosition = transform.position;
         endPosition = new Vector3(startPosition.x + distance, startPosition.y, startPosition.z);
-        //animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (movingRight)
+        timeElapsed += Time.deltaTime; 
+
+        if (timeElapsed >= 5f) 
         {
-            transform.position = Vector3.MoveTowards(transform.position, endPosition, speed * Time.deltaTime);
-            if (transform.position == endPosition)
+            if (isFirst)
             {
-                movingRight = false;
-                Flip();
                 DestroySpawns();
+                isFirst = false;
             }
-        }
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
-            if (transform.position == startPosition)
+            var targetPosition = movingRight ? endPosition : startPosition;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            if (transform.position == targetPosition)
             {
-                movingRight = true;
+                movingRight = !movingRight;
                 Flip();
                 DestroySpawns();
             }
@@ -45,14 +40,16 @@ public class BirdController : MonoBehaviour
     void Flip()
     {
         facingRight = !facingRight;
-        Vector2 Scaler = transform.localScale;
-        Scaler.x *= -1;
-        transform.localScale = Scaler;
+        Vector2 scaler = transform.localScale;
+        scaler.x *= -1;
+        transform.localScale = scaler;
     }
 
     private void DestroySpawns()
     {
         if (this.transform.GetChild(0).childCount > 1)
+        {
             Destroy(this.transform.GetChild(0).GetChild(1).gameObject);
+        }
     }
 }

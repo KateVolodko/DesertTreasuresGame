@@ -6,13 +6,11 @@ public partial class EmptyComponent : MonoBehaviour
 {
     public State State { get; set; }
 
-    // Start is called before the first frame update
     void Start()
     {
         State = State.Disabled;
     }
 
-    // Update is called once per frame
     void Update()
     {
         gameObject.GetComponent<Renderer>().material.color = State == State.Enabled ? Color.yellow : Color.red;

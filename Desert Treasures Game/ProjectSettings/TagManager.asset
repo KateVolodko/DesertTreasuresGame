@@ -7,6 +7,11 @@ TagManager:
   - Figure1
   - Control
   - ControlEmpty
+  - Grid
+  - Teleporter
+  - Coin
+  - FineArea
+  - Music
   layers:
   - Default
   - TransparentFX
@@ -18,7 +23,7 @@ TagManager:
   - 
   - Bird
   - Figure
-  - 
+  - Post Processing
   - 
   - 
   - 
